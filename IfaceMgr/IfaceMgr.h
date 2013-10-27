@@ -32,7 +32,7 @@ class TIfaceMgr {
     SPtr<TIfaceIface> getIface();
     SPtr<TIfaceIface> getIfaceByName(const std::string& name);
     SPtr<TIfaceIface> getIfaceByID(int id);
-    SPtr<TIfaceIface> getIfaceBySocket(int fd);
+    virtual SPtr<TIfaceIface> getIfaceBySocket(int fd);
     int countIface();
 
     // ---other---
@@ -47,6 +47,8 @@ class TIfaceMgr {
                                SPtr<TMsg> answer, TNotifyScriptParams& params);
     virtual void notifyScript(const std::string& scriptName, std::string action,
                               TNotifyScriptParams& params);
+
+    virtual void closeSockets();
 
     virtual ~TIfaceMgr();
 

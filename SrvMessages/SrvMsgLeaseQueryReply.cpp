@@ -114,7 +114,6 @@ bool TSrvMsgLeaseQueryReply::answer(SPtr<TSrvMsgLeaseQuery> queryMsg) {
 
     if (send) {
         // allocate buffer
-        pkt = new char[getSize()];
         this->send();
     }
 
@@ -247,7 +246,7 @@ void TSrvMsgLeaseQueryReply::appendClientData(SPtr<TAddrClient> cli) {
     SPtr<TAddrAddr> addr;
     SPtr<TAddrPrefix> prefix;
 
-    unsigned long nowTs = now();
+    unsigned long nowTs = (uint32_t) time(NULL);
     unsigned long cliTs = cli->getLastTimestamp();
     unsigned long diff = nowTs - cliTs;
 
