@@ -1,44 +1,42 @@
+%define git_repo dibbler
+%define git_head HEAD
+
 Summary: Dibbler - a portable DHCPv6
 Name: dibbler
-Version: 1.0.0RC1
-Release: 1
+Version:        %git_get_ver
+Release:        %mkrel %git_get_rel2
 License: GPL
 Group: Applications/Internet
-Source: %{name}-%{version}.tar.gz
+Source:         %git_bs_source %{name}-%{version}.tar.gz
 URL: http://klub.com.pl/dhcpv6/
-Packager: Patrick PICHON
-BuildRoot: /var/tmp/%{name}-buildroot
+
 
 %description
 Dibbler is a portable DHCPv6 implementation. It supports stateful (i.e. IPv6 address granting and IPv6 prefix delegation) as well as stateless (i.e. option granting) autoconfiguration for IPv6. Currently Linux 2.4 or later and Windows XP or later are supported. 
 
 %prep
-
-%setup
+%git_get_source
+%setup -q
 
 %build
-./configure --prefix=/usr
-make
+%configure2_5x
+%make
+
 
 %install
-rm -rf $RPM_BUILD_ROOT
-make DESTDIR=$RPM_BUILD_ROOT install
-mkdir -p $RPM_BUILD_ROOT/var/lib/dibbler
-mkdir -p $RPM_BUILD_ROOT/etc/dibbler
-rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}
+%makeinstall_std
 
-%clean
-rm -rf $RPM_BUILD_ROOT
+install -d %{buildroot}%{_localstatedir}/lib/%{name}
+install -d %{buildroot}%{_sysconfdir}/%{name}
+
+install doc/examples/client-autodetect.conf %{buildroot}%{_sysconfdir}/%{name}/client.conf
+
 
 %files
-%doc AUTHORS TODO RELNOTES LICENSE
-/etc/dibbler
-/var/lib/dibbler
-/usr/sbin/*
-%{_mandir}/*
-/usr/share/*
+%{_docdir}/%{name}/*
+%{_sysconfdir}/dibbler
+%{_localstatedir}/lib/dibbler
+%{_sbindir}/%{name}-*
+%{_mandir}/man*/%{name}-*
 
-
-%changelog
-* Fri Aug 30 2013 Patrick Pichon <patrick@pipiche.fr>
-- Initial RPM for dedibox
+%changelog -f %{_sourcedir}/%{name}-changelog.gitrpm.txt
