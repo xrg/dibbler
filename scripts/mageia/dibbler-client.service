@@ -1,0 +1,13 @@
+[Unit]
+Description=Dibbler DHCPv6 client
+After=syslog.target network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/sbin/dibbler-client start
+ExecStop=/usr/sbin/dibbler-client stop
+
+
+[Install]
+WantedBy=multi-user.target
+
