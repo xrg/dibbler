@@ -458,7 +458,9 @@ void add_radvd_conf(const char* ifname, const char* prefixPlain, int prefixLengt
 
     FILE * f;
     f = fopen(RADVD_FILE, "r+");
-    if (!f) {
+    if (f) {
+        fseek(f, 0, SEEK_END);
+    } else {
 	/* unable to open, so this file is missing, let's create it */
 	f = fopen(RADVD_FILE, "w");
 	fprintf(f, "#\n");
@@ -468,8 +470,8 @@ void add_radvd_conf(const char* ifname, const char* prefixPlain, int prefixLengt
     }
     if (!f) {
 	sprintf(errorMsg, "Unable to open %s file.", RADVD_FILE);
+        return;
     }
-    fseek(f, 0, SEEK_END);
     
     fprintf(f, "\n### %s start ###\n", ifname);
     fprintf(f, "interface %s \n", ifname);
