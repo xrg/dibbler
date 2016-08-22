@@ -36,7 +36,7 @@ std::string CLNTLOG_FILE(DEFAULT_CLNTLOG_FILE);
 std::string CLNTPID_FILE(DEFAULT_CLNTPID_FILE);
 
 void signal_handler(int n) {
-    Log(Crit) << "Signal received. Shutting down." << LogEnd;
+    Log(Warning) << "Signal received. Shutting down." << LogEnd;
     ptr->stop();
 }
 

@@ -25,7 +25,7 @@ TDHCPServer * ptr = 0;
 std::string WORKDIR(DEFAULT_WORKDIR);
 
 void signal_handler(int n) {
-    Log(Crit) << "Signal received. Shutting down." << LogEnd;
+    Log(Warning) << "Signal received. Shutting down." << LogEnd;
     ptr->stop();
 }
 
