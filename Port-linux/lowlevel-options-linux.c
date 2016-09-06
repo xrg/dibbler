@@ -565,6 +565,9 @@ int prefix_add(const char* ifname, int ifindex, const char* prefixPlain, int pre
     numargs = 5; */
 
     result = iproute_modify(RTM_NEWROUTE, NLM_F_CREATE|NLM_F_EXCL, numargs, argv);
+    
+    if (result && (errno == EEXIST))
+        return LOWLEVEL_NO_ERROR;
 
     if (result == 0)
         return LOWLEVEL_NO_ERROR;
