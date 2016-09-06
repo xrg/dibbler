@@ -637,6 +637,7 @@ bool TClntIfaceMgr::modifyPrefix(int iface, SPtr<TIPv6Addr> prefix, int prefixLe
 		       << "/" << subprefixLen << " ";
 	}
 
+	status = LOWLEVEL_NO_ERROR;
         switch (mode) {
         case PREFIX_MODIFY_ADD:
             status = prefix_add( (*i)->getName(), (*i)->getID(), tmpAddr->getPlain(), subprefixLen, pref, valid);
@@ -645,7 +646,7 @@ bool TClntIfaceMgr::modifyPrefix(int iface, SPtr<TIPv6Addr> prefix, int prefixLe
             status = prefix_update( (*i)->getName(), (*i)->getID(), tmpAddr->getPlain(), subprefixLen, pref, valid);
             break;
         case PREFIX_MODIFY_DEL:
-          status = prefix_del( (*i)->getName(), (*i)->getID(), tmpAddr->getPlain(), subprefixLen);
+            status = prefix_del( (*i)->getName(), (*i)->getID(), tmpAddr->getPlain(), subprefixLen);
             break;
         }
         if (status==LOWLEVEL_NO_ERROR) {
