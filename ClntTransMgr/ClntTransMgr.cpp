@@ -743,14 +743,10 @@ unsigned long TClntTransMgr::getTimeout()
     // AddrMgr timeout
     timeout = ClntAddrMgr().getTimeout();
     tmp     = ClntAddrMgr().getTentativeTimeout();
-    if (timeout > tmp)
+    if ((tmp) && timeout > tmp)
         timeout = tmp;
     // Uncomment for timeout debugging
     //Log(Debug) << "Timeout after AddrMgr=" << timeout << LogEnd;
-
-    if (timeout == 0) {
-	ClntAddrMgr().getTimeout();
-    }
 
     // IfaceMgr (Lifetime option) timeout
     tmp = ClntIfaceMgr().getTimeout();
@@ -776,6 +772,8 @@ unsigned long TClntTransMgr::getTimeout()
             timeout=INACTIVE_MODE_INTERVAL;
     }
 
+    if (timeout > 3600)
+        timeout = 3600;
     return timeout;
 }
 
